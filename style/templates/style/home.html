@@ -1,0 +1,102 @@
+{% extends "style/base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div id="wrapper">
+  <div class="columns">
+    <h1 class="title column topHead" align="center">Neural Style Transfer</h1>
+  </div>
+  <div class="columns">
+    <div class="column">
+      <div class="box">
+        <h2 class="title">Webcam</h2>
+        <div class="videoCont" id="webcam">
+        </div>
+       <input type=button value="Take Snapshot" onClick="take_snapshot()">
+      </div>
+    </div>
+    <div class="column">
+      <div class="box ">
+        <h2 class="title">Output</h2>
+        <div class="output videoCont" id="pic">
+          <img id="photo" alt="The screen capture will appear in this box.">
+        </div>
+       <input type=button value="Share!" onClick="share()">
+      </div>
+    </div>
+  </div>
+  <div class="columns">
+    <div class="column">
+      <figure class="image is-128x128">
+        <img src="https://lh3.googleusercontent.com/proxy/l0SDMOUcmVQhi8auTAu1sMFUkL6JkQpTdH9j0u-PTXeb0LZeZi5B0DovHrF292DqRI8ML97MfaBRBsBkFmJdTgI9Ui8ZWp1d-xOW0JPHyhMUrWqo2UY2u9MXM5amGNxquvceSM0DJ9RaSEsR_IMQzokMa853SGyJJ6EXIUZWizxYr_WWRQWVKOajC71MssXVOOGHT3NSPEKtU-LeH3FfyxsAfAMYwNPy_fGEgWTnelMCumNVOX1qps9XIK3sHMOtR7O3YNUmpdIKxzOEfTYcepGvmIiUbED2li9cUaP_48RcvLdCrkTpj2Myf6YiQQ">
+      </figure>
+    </div>
+  </div>
+</div>
+<script type="text/javascript" src="{% static 'style/libwebcam.js' %}"></script>
+<script language="JavaScript">
+
+Webcam.attach( '#webcam ' );
+
+function isCookiesEnabled() {
+    return document.cookie && document.cookie !== '';
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function b64toBlob(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    console.log(new Blob([ab], { type: 'image/jpeg' }));
+    return new Blob([ab], { type: 'image/jpeg' });
+}
+
+async function upload(blob) {
+  console.log("colled");
+  const serverUrl = '/';
+  const formData = new FormData();
+  formData.append('image', b64toBlob(blob), "image.png");
+  console.log(getCookie('csrftoken'));
+
+  const response = await fetch(serverUrl, {
+    method: 'POST',
+    headers: {'X-CSRFToken': getCookie('csrftoken')},
+    body: formData
+  });
+
+  const result = await response.json();
+  console.log(result.image);
+  photo = document.getElementById('photo');
+  photo.setAttribute('src', result.image);
+}
+
+function take_snapshot() {
+ Webcam.snap( function(data_uri) {
+  document.getElementById('photo').setAttribute('src', data_uri); 
+  upload(data_uri);
+ });
+}
+</script>
+
+{% endblock %}
