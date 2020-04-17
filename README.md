@@ -6,8 +6,7 @@
 ### [Style Yourself ](https://styleyourself.herokuapp.com)
 
 ## Screenshot
-[![Screenshot](https://raw.githubusercontent.com/sudarshanregmi/Neural-Style-Transfer/master/Screenshots/screenshot.png)](https://styleyourself.herokuapp.com)
-
+![Screenshot](https://raw.githubusercontent.com/sudarshanregmi/Neural-Style-Transfer/master/Screenshots/screenshot.png)
 ### Requirements
 
  - torch==1.4.0
