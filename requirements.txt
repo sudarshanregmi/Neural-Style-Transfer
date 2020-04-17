@@ -12,7 +12,11 @@ pylint==2.4.4
 pytz==2019.3
 six==1.14.0
 sqlparse==0.3.1
-torch==1.4.0
-torchvision==0.5.0
 typed-ast==1.4.1
 wrapt==1.11.2
+
+# Use wheels from the official pytorch because of size limit of 500 MB.
+# torch==1.4.0
+# torchvision==0.5.0
+https://download.pytorch.org/whl/cpu/torch-1.4.0%2Bcpu-cp37-cp37m-linux_x86_64.whl
+https://download.pytorch.org/whl/cpu/torchvision-0.5.0%2Bcpu-cp37-cp37m-linux_x86_64.whl
