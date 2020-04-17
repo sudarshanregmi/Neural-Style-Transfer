@@ -25,5 +25,5 @@ def stylize(content_image, style):
         style_model.load_state_dict(state_dict)
         style_model.to(device)
         output = style_model(content_image).cpu()
-        utils.save_image("temp.jpg", output[0])
+        utils.save_image("./style/static/style-sample-images/temp.jpg", output[0])
         return output[0]

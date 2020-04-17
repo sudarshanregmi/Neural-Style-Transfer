@@ -5,7 +5,7 @@ import base64, io
 
 
 def image_as_base64(image_file, format='png'):
-    img = Image.open("temp.jpg")  #temporary workaround, will get back to it
+    img = Image.open("./style/static/style-sample-images/temp.jpg") #temporary workaround, will get back to it
     buffered = io.BytesIO()
     img.save(buffered, format="PNG")
     img_str = base64.b64encode(buffered.getvalue())
