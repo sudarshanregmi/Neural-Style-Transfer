@@ -6,7 +6,7 @@ import re, io
 from utils import utils
 from utils.transformerNet import TransformerNet
 
-def stylize(content_image):
+def stylize(content_image, style):
     device = torch.device("cpu")
     content_transform = transforms.Compose([
         transforms.ToTensor()
@@ -17,7 +17,7 @@ def stylize(content_image):
 
     with torch.no_grad():
         style_model = TransformerNet()
-        state_dict = torch.load("./saved_models/candy.pth")
+        state_dict = torch.load("./saved_models/" + style)
         # remove saved deprecated running_* keys in InstanceNorm from the checkpoint
         for k in list(state_dict.keys()):
             if re.search(r'in\d+\.running_(mean|var)$', k):

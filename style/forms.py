@@ -6,6 +6,7 @@ import filetype
 
 class ImageForm(forms.Form):
     image = forms.ImageField()
+    style = forms.CharField(widget=forms.HiddenInput)
 
     def clean_image(self):
         data = self.cleaned_data['image']

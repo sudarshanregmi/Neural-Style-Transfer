@@ -12,6 +12,7 @@ class IndexView(FormView):
 
     def form_valid(self, form):
         objects = form["image"].data.read()
+        style = form.cleaned_data.get('style')
         image = Image.open(io.BytesIO(objects))
-        img = stylize(image)
+        img = stylize(image, style)
         return JsonResponse({"image": image_as_base64(img)})
